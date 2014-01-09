@@ -1,7 +1,4 @@
 /*
- * Copyright (c) 2013, The Linux Foundation. All rights reserved.
- * Not a Contribution.
- *
  * Copyright (C) 2013 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,6 +27,7 @@ import android.app.FragmentTransaction;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.RemoteException;
@@ -39,11 +37,13 @@ import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.Intents;
 import android.provider.ContactsContract.Intents.UI;
 import android.speech.RecognizerIntent;
-import android.telephony.MSimTelephonyManager;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -95,9 +95,6 @@ public class DialtactsActivity extends TransactionSafeActivity implements View.O
     private static final String PHONE_PACKAGE = "com.android.phone";
     private static final String CALL_SETTINGS_CLASS_NAME =
             "com.android.phone.CallFeaturesSetting";
-    private static final String MSIM_CALL_SETTINGS_CLASS_NAME =
-            "com.android.phone.MSimCallFeaturesSetting";
-
     /** @see #getCallOrigin() */
     private static final String CALL_ORIGIN_DIALTACTS =
             "com.android.dialer.DialtactsActivity";
@@ -514,7 +511,19 @@ public class DialtactsActivity extends TransactionSafeActivity implements View.O
         mVoiceSearchButton.setOnClickListener(this);
         mSearchView = (EditText) findViewById(R.id.search_view);
         mSearchView.addTextChangedListener(mPhoneSearchQueryTextListener);
-        mSearchView.setHint(getString(R.string.dialer_hint_find_contact));
+
+        final String hintText = getString(R.string.dialer_hint_find_contact);
+
+        // The following code is used to insert an icon into a CharSequence (copied from
+        // SearchView)
+        final SpannableStringBuilder ssb = new SpannableStringBuilder("   "); // for the icon
+        ssb.append(hintText);
+        final Drawable searchIcon = getResources().getDrawable(R.drawable.ic_ab_search);
+        final int textSize = (int) (mSearchView.getTextSize() * 1.20);
+        searchIcon.setBounds(0, 0, textSize, textSize);
+        ssb.setSpan(new ImageSpan(searchIcon), 1, 2, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        mSearchView.setHint(ssb);
     }
 
     final AnimatorListener mHideListener = new AnimatorListenerAdapter() {
@@ -859,7 +868,6 @@ public class DialtactsActivity extends TransactionSafeActivity implements View.O
         }
         // Go all the way back to the favorites fragment, regardless of how many times we
         // transitioned between search fragments
-        final BackStackEntry entry = getFragmentManager().getBackStackEntryAt(0);
         getFragmentManager().popBackStack(0, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         setNotInSearchUi();
     }
@@ -867,11 +875,7 @@ public class DialtactsActivity extends TransactionSafeActivity implements View.O
     /** Returns an Intent to launch Call Settings screen */
     public static Intent getCallSettingsIntent() {
         final Intent intent = new Intent(Intent.ACTION_MAIN);
-        if (MSimTelephonyManager.getDefault().isMultiSimEnabled()) {
-            intent.setClassName(PHONE_PACKAGE, MSIM_CALL_SETTINGS_CLASS_NAME);
-        } else {
-            intent.setClassName(PHONE_PACKAGE, CALL_SETTINGS_CLASS_NAME);
-        }
+        intent.setClassName(PHONE_PACKAGE, CALL_SETTINGS_CLASS_NAME);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         return intent;
     }
