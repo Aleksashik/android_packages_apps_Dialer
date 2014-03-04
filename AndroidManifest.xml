@@ -39,6 +39,7 @@
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
+    <uses-permission android:name="com.qti.permission.DIAG" />
     <uses-permission android:name="com.android.voicemail.permission.ADD_VOICEMAIL" />
     <uses-permission android:name="com.android.voicemail.permission.READ_WRITE_ALL_VOICEMAIL" />
     <uses-permission android:name="android.permission.ALLOW_ANY_CODEC_FOR_PLAYBACK" />
@@ -51,7 +52,6 @@
      presses home. -->
     <uses-permission android:name="android.permission.STOP_APP_SWITCHES" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="com.qti.permission.DIAG" />
 
     <!-- Allow the Dialer to access accounts for lookup services -->
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
@@ -129,7 +129,6 @@
                 <category android:name="android.intent.category.TAB" />
             </intent-filter>
         </activity>
-
         <activity android:name="CallLogSearchActivity"
              android:label="@string/recentCallsIconLabel" >
              <intent-filter>
@@ -140,7 +139,6 @@
                  android:name="android.app.searchable"
                  android:resource="@xml/calllog_searchable" />
         </activity>
-
         <activity android:name="com.android.dialer.calllog.CallLogActivity"
             android:label="@string/call_log_activity_title"
             android:theme="@style/DialtactsThemeWithActionBarOverlay"
@@ -190,7 +188,7 @@
                 <category android:name="android.intent.category.TEST"/>
             </intent-filter>
         </activity>
-
+        
         <provider android:name=".calllog.CallLogSearchProvider"
             android:authorities="com.android.dialer.calllog.calllogsearchprovider"
             android:exported="true" >
@@ -201,7 +199,7 @@
                 android:pathPrefix="/search_suggest_shortcut"
                 android:readPermission="android.permission.GLOBAL_SEARCH" />
         </provider>
-
+        
         <!-- Backwards compatibility: "Phone" from Gingerbread and earlier -->
         <activity-alias android:name="DialtactsActivity"
             android:targetActivity=".DialtactsActivity"
