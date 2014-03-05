@@ -15,6 +15,7 @@
 -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    android:sharedUserId="com.android.dialer"
     package="com.android.dialer">
 
     <uses-permission android:name="android.permission.CALL_PRIVILEGED" />
@@ -39,7 +40,6 @@
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
-    <uses-permission android:name="com.qti.permission.DIAG" />
     <uses-permission android:name="com.android.voicemail.permission.ADD_VOICEMAIL" />
     <uses-permission android:name="com.android.voicemail.permission.READ_WRITE_ALL_VOICEMAIL" />
     <uses-permission android:name="android.permission.ALLOW_ANY_CODEC_FOR_PLAYBACK" />
@@ -52,11 +52,7 @@
      presses home. -->
     <uses-permission android:name="android.permission.STOP_APP_SWITCHES" />
     <uses-permission android:name="android.permission.CAMERA" />
-
-    <!-- Allow the Dialer to access accounts for lookup services -->
-    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
-
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="com.qti.permission.DIAG" />
 
     <application
         android:name="DialerApplication"
@@ -129,6 +125,7 @@
                 <category android:name="android.intent.category.TAB" />
             </intent-filter>
         </activity>
+
         <activity android:name="CallLogSearchActivity"
              android:label="@string/recentCallsIconLabel" >
              <intent-filter>
@@ -139,6 +136,7 @@
                  android:name="android.app.searchable"
                  android:resource="@xml/calllog_searchable" />
         </activity>
+
         <activity android:name="com.android.dialer.calllog.CallLogActivity"
             android:label="@string/call_log_activity_title"
             android:theme="@style/DialtactsThemeWithActionBarOverlay"
@@ -188,7 +186,7 @@
                 <category android:name="android.intent.category.TEST"/>
             </intent-filter>
         </activity>
-        
+
         <provider android:name=".calllog.CallLogSearchProvider"
             android:authorities="com.android.dialer.calllog.calllogsearchprovider"
             android:exported="true" >
@@ -199,7 +197,7 @@
                 android:pathPrefix="/search_suggest_shortcut"
                 android:readPermission="android.permission.GLOBAL_SEARCH" />
         </provider>
-        
+
         <!-- Backwards compatibility: "Phone" from Gingerbread and earlier -->
         <activity-alias android:name="DialtactsActivity"
             android:targetActivity=".DialtactsActivity"
@@ -313,15 +311,7 @@
                   android:exported="false"
                   android:process="com.android.incallui">
         </activity>
-        <activity android:name="com.android.incallui.InCallCardActivity"
-                  android:theme="@android:style/Theme.Translucent.NoTitleBar"
-                  android:label="@string/phoneAppLabel"
-                  android:excludeFromRecents="true"
-                  android:launchMode="singleInstance"
-                  android:configChanges="keyboardHidden"
-                  android:exported="false"
-                  android:process="com.android.incallui">
-        </activity>
+
         <activity android:name="com.android.incallui.MSimInCallActivity"
                   android:theme="@style/Theme.InCallScreen"
                   android:label="@string/phoneAppLabel"
@@ -332,6 +322,7 @@
                   android:exported="false"
                   android:process="com.android.incallui">
         </activity>
+
         <service android:name="com.android.incallui.CallHandlerService"
                  android:process="com.android.incallui"
                  android:permission="android.permission.BIND_CALL_SERVICE">
@@ -348,16 +339,6 @@
                 <action android:name="com.android.incallui.ACTION_HANG_UP_ONGOING_CALL" />
             </intent-filter>
         </receiver>
-
-        <provider android:name="com.android.dialer.lookup.DialerProvider"
-                  android:authorities="com.android.dialer.provider"
-                  android:exported="false"
-                  android:multiprocess="false" />
-
-        <provider android:name="com.android.dialer.lookup.PhoneNumberCacheProvider"
-                  android:authorities="com.android.dialer.cacheprovider"
-                  android:exported="false"
-                  android:multiprocess="false" />
 
     </application>
 </manifest>
