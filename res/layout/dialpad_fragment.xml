@@ -78,6 +78,23 @@
 
         <View style="@style/DialpadHorizontalSeparator"/>
 
+<<<<<<< HEAD
+=======
+        <!-- dialpadStub values are copied from dialpad.xml.  dialpadStub replaces dialpad when
+         dial conference controls are made visible. -->
+        <View
+            android:id="@+id/dialpadStub"
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/dialpad_vertical_margin"
+            android:layout_weight="@integer/dialpad_layout_weight_dialpad"
+            android:background="@drawable/dialpad_background"
+            android:paddingBottom="10dip"
+            android:paddingLeft="5dip"
+            android:paddingRight="5dip" />
+
+>>>>>>> 0074908... Dialer: un-derp the keypad UI
         <LinearLayout
             android:id="@+id/dialButtonContainer"
             android:layout_width="match_parent"
@@ -111,6 +128,21 @@
                 android:background="@drawable/btn_call"
                 android:src="@drawable/ic_menu_overflow_lt"
                 android:contentDescription="@string/action_menu_overflow_description" />
+<<<<<<< HEAD
+=======
+            <!-- src for image for the button will be changed dynamically in the code.
+            See DialpadFragment.-->
+            <ImageButton
+                android:id="@+id/dialConferenceButton"
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:state_enabled="false"
+                android:background="@drawable/btn_call"
+                android:contentDescription="@string/description_dial_button"
+                android:src="@drawable/ic_add_group_holo_dark" />
+>>>>>>> 0074908... Dialer: un-derp the keypad UI
         </LinearLayout>
 
         <!-- "Dialpad chooser" UI, shown only when the user brings up the
